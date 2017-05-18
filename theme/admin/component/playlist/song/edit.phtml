@@ -1,0 +1,35 @@
+<?php $this->partial('shared/header'); ?>
+
+<form method="post" class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="page-header">
+                <div class="pull-right">
+                    <button class="btn btn-default" onclick="<?= $next ?>" type="button">Cancel</button>
+                    <button class="btn btn-primary">Save</button>
+                </div>
+                <h3><?= $title ?> of <?= $playlist->name ?></h3>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-8">
+            <?= $this->form->field('title') ?>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-4">
+            <?= $this->form->field('artist') ?>
+            <?= $this->form->field('target') ?>
+        </div>
+        <div class="col-md-4">
+            <?= $this->form->field('duration') ?>
+            <?= $this->form->field('index') ?>
+        </div>
+    </div>
+    
+</form>
+
+<?php $this->partial('shared/footer'); ?>

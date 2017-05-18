@@ -1,0 +1,91 @@
+<?php $this->partial('shared/header'); ?>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <form method="get">
+                <div class="form-group">
+                    <input type="search" name="q" placeholder="Filter" autofocus class="form-control" value="<?= $this->req->getQuery('q') ?>">
+                </div>
+                <div class="form-group text-right">
+                    <button class="btn btn-default">Find</button>
+                </div>
+            </form>
+                
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    Total result: <?= number_format($total, 0, '.','.'); ?>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="page-header">
+                <?php if($this->can_i->create_playlist): ?>
+                <a class="btn btn-primary pull-right" href="<?= $this->router->to('adminPlaylistEdit', ['id'=>0], ['ref' => $this->req->url]) ?>">Create New</a>
+                <?php endif; ?>
+                <h3>Playlists</h3>
+            </div>
+            
+            <?php if($playlists): ?>
+            <?php
+                $can_delete     = $this->can_i->remove_playlist;
+                $can_edit       = $this->can_i->update_playlist;
+                $ref            = $this->req->url;
+            ?>
+            
+            <div class="list-group">
+                <?php foreach($playlists as $playlist): ?>
+                <div class="list-group-item">
+                
+                    <div class="btn-group btn-group-xs pull-right">
+                        <?php if($can_edit): ?>
+                            <a href="<?= $this->router->to('adminPlaylistEdit', ['id'=>$playlist->id], ['ref'=>$ref]) ?>" class="btn btn-default" title="Edit">
+                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                            </a>
+                        <?php endif; ?>
+                        
+                        <button id="playlist-<?= $playlist->id ?>" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-default btn-xs">
+                            <span class="caret"></span>
+                        </button>
+                        
+                        <ul class="dropdown-menu" aria-labelledby="playlist-<?= $playlist->id ?>">
+                            
+                            <li>
+                                <a href="<?= $this->router->to('adminPlaylistSong', ['playlist'=>$playlist->id], ['ref'=>$ref]) ?>">
+                                    <i class="fa fa-list" aria-hidden="true"></i> Songs List
+                                </a>
+                            </li>
+                            
+                            <?php if($can_delete): ?>
+                            <li role="separator" class="divider"></li>
+                            <li>
+                                <a href="<?= $this->router->to('adminPlaylistRemove', ['id'=>$playlist->id], ['ref'=>$ref]) ?>" data-confirm="Delete Confirmation" data-confirm-message="Are you sure want to delete this playlist? This action can't be undone." title="Delete" aria-label="Delete">
+                                    <i class="fa fa-trash" aria-hidden="true"></i> Delete
+                                </a>
+                            </li>
+                            <?php endif; ?>
+                        </ul>
+                        
+                    </div>
+                    
+                    <h4 class="list-group-item-heading"><?= $playlist->name ?></h4>
+                    <p class="list-group-item-text small">
+                        <span title="Created"><i class="fa fa-calendar-plus-o" aria-hidden="true"></i> <?= date('M d, Y', strtotime($playlist->created)) ?></span>
+                        <?php if($playlist->active): ?>
+                            <span title="Current Active Playlist" class="text-primary">&middot; <i class="fa fa-check-circle" aria-hidden="true"></i> Active</span>
+                        <?php endif; ?>
+                    </p>
+                </div>
+                <?php endforeach; ?>
+            </div>
+            <?php endif; ?>
+            
+            <?php
+                if($pagination)
+                    $this->partial('shared/pagination', ['pagination'=>$pagination]);
+            ?>
+        </div>
+    </div>
+</div>
+
+<?php $this->partial('shared/footer'); ?>

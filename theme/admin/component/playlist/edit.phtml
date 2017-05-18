@@ -1,0 +1,33 @@
+<?php $this->partial('shared/header'); ?>
+
+<form method="post" class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="page-header">
+                <div class="pull-right">
+                    <a class="btn btn-default" href="<?= $next ?>" type="button">Cancel</a>
+                    <button class="btn btn-primary">Save</button>
+                </div>
+                <h3><?= $title ?></h3>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-8">
+            <?= $this->form->field('name') ?>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <?= $this->form->field('about') ?>
+            <?= $this->form->field('active') ?>
+        </div>
+        <div class="col-md-4">
+            <?= $this->form->field('banner') ?>
+            <?= $this->form->field('link') ?>
+        </div>
+    </div>
+</form>
+
+<?php $this->partial('shared/footer'); ?>

@@ -1,0 +1,79 @@
+<?php $this->partial('shared/header'); ?>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <?php if($playlist->banner): ?>
+                <p><img src="<?= $playlist->banner ?>" alt="<?= hs($playlist->name) ?>" class="img-responsive"></p>
+                
+                <hr>
+            <?php endif; ?>
+            
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    Total result: <?= number_format($total, 0, '.','.'); ?>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="page-header">
+                <div class="pull-right">
+                    <a href="<?= $next ?>" class="btn btn-default">Back</a>
+                    <?php if($this->can_i->update_playlist): ?>
+                    <a class="btn btn-primary" href="<?= $this->router->to('adminPlaylistSongEdit', ['playlist'=>$playlist->id, 'id' => 0], ['next'=>$this->req->url]) ?>">Create New</a>
+                    <?php endif; ?>
+                </div>
+                <h3>Playlists <?= $playlist->name ?></h3>
+            </div>
+            
+            <?php if($songs): ?>
+            <?php
+                $can_edit   = $this->can_i->update_playlist;
+                $next       = $this->req->url;
+            ?>
+            <table class="table table-hover">
+                <thead>
+                    <tr><th>Title</th><th>Duration</th><th> </th></tr>
+                </thead>
+                <tbody>
+                    <?php foreach($songs as $song): ?>
+                    <tr>
+                        <td>
+                            <?= ($song->index < 10 ? '0' : '') . $song->index ?>.
+                            <?= $song->artist ?> - <?= $song->title ?>
+                        </td>
+                        <td><?= $song->duration ?></td>
+                        <td class="text-right">
+                            
+                            <?php if($can_edit): ?>
+                            <div class="btn-group btn-group-xs">
+                                <a href="<?= $this->router->to('adminPlaylistSongEdit', ['playlist'=>$playlist->id, 'id'=>$song->id], ['ref'=>$next]) ?>" title="Edit" class="btn btn-default">
+                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                </a>
+                                        
+                                <button id="song-<?= $song->id ?>" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-default btn-xs">
+                                    <span class="caret"></span>
+                                </button>
+                                
+                                <ul class="dropdown-menu" aria-labelledby="song-<?= $song->id ?>">
+                                    <li>
+                                        <a href="<?= $this->router->to('adminPlaylistSongRemove', ['playlist'=>$playlist->id, 'id'=>$song->id], ['ref'=>$next]) ?>" data-confirm="Delete Confirmation" data-confirm-message="Are you sure want to delete this playlist song? This action can't be undone." title="Delete" aria-label="Delete">
+                                            <i class="fa fa-trash" aria-hidden="true"></i> Delete
+                                        </a>
+                                    </li>
+                                </ul>
+                                
+                            </div>
+                            <?php endif; ?>
+                            
+                        </td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+            <?php endif; ?>
+        </div>
+    </div>
+</div>
+
+<?php $this->partial('shared/footer'); ?>
