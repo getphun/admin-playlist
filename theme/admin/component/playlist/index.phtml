@@ -21,7 +21,7 @@
         <div class="col-md-9">
             <div class="page-header">
                 <?php if($this->can_i->create_playlist): ?>
-                <a class="btn btn-primary pull-right" href="<?= $this->router->to('adminPlaylistEdit', ['id'=>0], ['ref' => $this->req->url]) ?>">Create New</a>
+                <a class="btn btn-primary pull-right" href="<?= $this->router->to('adminPlaylistEdit', ['id'=>0], ['ref' => $ref]) ?>">Create New</a>
                 <?php endif; ?>
                 <h3>Playlists</h3>
             </div>
@@ -30,7 +30,6 @@
             <?php
                 $can_delete     = $this->can_i->remove_playlist;
                 $can_edit       = $this->can_i->update_playlist;
-                $ref            = $this->req->url;
             ?>
             
             <div class="list-group">

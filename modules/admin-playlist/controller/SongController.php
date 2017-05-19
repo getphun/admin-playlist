@@ -43,10 +43,12 @@ class SongController extends \AdminController
         
         $old = null;
         $params['title'] = 'Create New Playlist Song';
-        $next = $this->req->getQuery('ref');
-        if(!$next)
-            $next = $this->router->to('adminPlaylistSong', ['playlist'=>$playlist->id]);
-        $params['next'] = $next;
+        
+        $ref = $this->req->getQuery('ref');
+        if(!$ref)
+            $ref = $this->router->to('adminPlaylistSong', ['playlist'=>$playlist->id]);
+        
+        $params['ref'] = $ref;
         
         if($id){
             $params['title'] = 'Edit Playlist Song';
@@ -80,7 +82,7 @@ class SongController extends \AdminController
         
         $this->fire('playlist:updated', $object, $old);
         
-        return $this->redirect($next);
+        return $this->redirect($ref);
     }
     
     public function indexAction(){
@@ -92,7 +94,7 @@ class SongController extends \AdminController
         $params = $this->_defaultParams();
         $params['playlist'] = null;
         $params['songs'] = [];
-        $params['next'] = $this->req->getQuery('ref') ?? $this->router->to('adminPlaylist');
+        $params['ref'] = $this->req->getQuery('ref') ?? $this->router->to('adminPlaylist');
         
         $playlist = $this->param->playlist;
         if(!$playlist)
@@ -136,9 +138,9 @@ class SongController extends \AdminController
         
         $this->fire('playlist:updated', $playlist, $playlist);
         
-        $next = $this->req->getQuery('ref');
-        if(!$next)
-            $next = $this->url->get(['for' => 'adminPlaylistSong', 'playlist'=>$playlist->id]);
-        $this->redirect($next);
+        $ref = $this->req->getQuery('ref');
+        if(!$ref)
+            $ref = $this->router->to('adminPlaylistSong', ['playlist'=>$playlist->id]);
+        $this->redirect($ref);
     }
 }

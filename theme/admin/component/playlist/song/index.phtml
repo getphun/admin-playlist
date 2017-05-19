@@ -18,9 +18,9 @@
         <div class="col-md-9">
             <div class="page-header">
                 <div class="pull-right">
-                    <a href="<?= $next ?>" class="btn btn-default">Back</a>
+                    <a href="<?= $ref ?>" class="btn btn-default">Back</a>
                     <?php if($this->can_i->update_playlist): ?>
-                    <a class="btn btn-primary" href="<?= $this->router->to('adminPlaylistSongEdit', ['playlist'=>$playlist->id, 'id' => 0], ['next'=>$this->req->url]) ?>">Create New</a>
+                    <a class="btn btn-primary" href="<?= $this->router->to('adminPlaylistSongEdit', ['playlist'=>$playlist->id, 'id' => 0], ['ref'=>$this->req->url]) ?>">Create New</a>
                     <?php endif; ?>
                 </div>
                 <h3>Playlists <?= $playlist->name ?></h3>
@@ -29,7 +29,7 @@
             <?php if($songs): ?>
             <?php
                 $can_edit   = $this->can_i->update_playlist;
-                $next       = $this->req->url;
+                $here       = $this->req->url;
             ?>
             <table class="table table-hover">
                 <thead>
@@ -47,7 +47,7 @@
                             
                             <?php if($can_edit): ?>
                             <div class="btn-group btn-group-xs">
-                                <a href="<?= $this->router->to('adminPlaylistSongEdit', ['playlist'=>$playlist->id, 'id'=>$song->id], ['ref'=>$next]) ?>" title="Edit" class="btn btn-default">
+                                <a href="<?= $this->router->to('adminPlaylistSongEdit', ['playlist'=>$playlist->id, 'id'=>$song->id], ['ref'=>$here]) ?>" title="Edit" class="btn btn-default">
                                     <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                 </a>
                                         
@@ -57,7 +57,7 @@
                                 
                                 <ul class="dropdown-menu" aria-labelledby="song-<?= $song->id ?>">
                                     <li>
-                                        <a href="<?= $this->router->to('adminPlaylistSongRemove', ['playlist'=>$playlist->id, 'id'=>$song->id], ['ref'=>$next]) ?>" data-confirm="Delete Confirmation" data-confirm-message="Are you sure want to delete this playlist song? This action can't be undone." title="Delete" aria-label="Delete">
+                                        <a href="<?= $this->router->to('adminPlaylistSongRemove', ['playlist'=>$playlist->id, 'id'=>$song->id], ['ref'=>$here]) ?>" data-confirm="Delete Confirmation" data-confirm-message="Are you sure want to delete this playlist song? This action can't be undone." title="Delete" aria-label="Delete">
                                             <i class="fa fa-trash" aria-hidden="true"></i> Delete
                                         </a>
                                     </li>

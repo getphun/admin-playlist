@@ -37,10 +37,10 @@ class PlaylistController extends \AdminController
         $params = $this->_defaultParams();
         $params['title'] = 'Create New Playlist';
         
-        $next = $this->req->getQuery('ref');
-        if($next)
-            $next = $this->router->to('adminPlaylist');
-        $params['next'] = $next;
+        $ref = $this->req->getQuery('ref');
+        if(!$ref)
+            $ref = $this->router->to('adminPlaylist');
+        $params['ref'] = $ref;
         
         if($id){
             $params['title'] = 'Edit Playlist';
@@ -81,7 +81,7 @@ class PlaylistController extends \AdminController
             ]);
         }
         
-        $this->redirect($next);
+        $this->redirect($ref);
     }
     
     public function indexAction(){
@@ -92,6 +92,7 @@ class PlaylistController extends \AdminController
         
         $params = $this->_defaultParams();
         $params['playlists'] = [];
+        $params['ref'] = $this->req->url;
         
         $page = $this->req->getQuery('page');
         $rpp  = 20;
@@ -128,9 +129,9 @@ class PlaylistController extends \AdminController
         
         $this->fire('playlist:deleted', $object);
         
-        $next = $this->req->getQuery('ref');
-        if($next)
-            return $this->redirect($next);
+        $ref = $this->req->getQuery('ref');
+        if($ref)
+            return $this->redirect($ref);
         
         return $this->redirectUrl('adminPlaylist');
     }
