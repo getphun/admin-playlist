@@ -42,6 +42,11 @@ class PlaylistController extends \AdminController
             $ref = $this->router->to('adminPlaylist');
         $params['ref'] = $ref;
         
+        $params['placements'] = [];
+        $placements = Playlist::countGroup('placement');
+        if($placements)
+            $params['placements'] = array_keys($placements);
+        
         if($id){
             $params['title'] = 'Edit Playlist';
             $object = Playlist::get($id, false);
@@ -73,14 +78,6 @@ class PlaylistController extends \AdminController
         
         $this->fire('playlist:'. $event, $object, $old);
         
-        // remove active status of another playlist
-        if($object->active){
-            Playlist::set(['active' => false], [
-                'active = 1 AND id != :id',
-                'bind' => ['id' => $id]
-            ]);
-        }
-        
         $this->redirect($ref);
     }
     
@@ -94,6 +91,11 @@ class PlaylistController extends \AdminController
         $params['playlists'] = [];
         $params['ref'] = $this->req->url;
         
+        $params['placements'] = [];
+        $placements = Playlist::countGroup('placement');
+        if($placements)
+            $params['placements'] = array_keys($placements);
+        
         $page = $this->req->getQuery('page');
         $rpp  = 20;
         if(!$page)
@@ -102,6 +104,8 @@ class PlaylistController extends \AdminController
         $cond = [];
         if($this->req->getQuery('q'))
             $cond['q'] = $this->req->getQuery('q');
+        if($this->req->getQuery('placement'))
+            $cond['placement'] = $this->req->getQuery('placement');
             
         $params['playlists'] = Playlist::get($cond, $rpp, $page, 'name ASC');
         

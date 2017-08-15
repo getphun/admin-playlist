@@ -11,6 +11,8 @@ CREATE TABLE IF NOT EXISTS `playlist` (
     `banner` VARCHAR(150),
     `link` VARCHAR(150),
     `about` TEXT,
+    `placement` VARCHAR(100),
+    `index` SMALLINT,
     `active` BOOLEAN DEFAULT FALSE,
     `created` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

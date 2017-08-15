@@ -108,6 +108,19 @@ return [
                 'type'  => 'checkbox',
                 'label' => 'Set as active',
                 'rules' => []
+            ],
+            'placement' => [
+                'type'  => 'text',
+                'label' => 'Placement',
+                'rules' => []
+            ],
+            'index' => [
+                'type'  => 'number',
+                'label' => 'Index',
+                'rules' => [],
+                'filters' => [
+                    'number' => true
+                ]
             ]
         ],
         
