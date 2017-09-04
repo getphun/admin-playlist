@@ -28,3 +28,4 @@ CREATE TABLE IF NOT EXISTS `playlist_song` (
     `index` SMALLINT DEFAULT 0,
     `created` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+CREATE INDEX `by_playlist` ON `playlist_song` ( `playlist` );
